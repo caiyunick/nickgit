@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <style type="text/css">
+    html{
+      /*font-size: 14px;*/
+    }
+    body{
+      font-family: helvetica, "microsoft yahei", 微软雅黑, arial, sans-serif;
+      /*font-size: 16px;*/
+    }
+    .nolfpad{
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .hr{
+      width:100%;
+      height: 2px;
+      background: #ccc;
+    }
+    .ct-day>div{
+      background: #ccc;
+      padding-bottom: 7px;
+      border-radius: 4px;
+    }
+    .ct-day>div>h4{
+      color: #000;
+    }
+    .ct-day>div>span{
+      display: inline-block;
+      background: #FEFDFD;
+      text-align: center;
+      min-width: 5em;
+      font-size: 12px;
+      font-weight: 300;
+      border-radius: 4px;
+    }
+    .ct-day>div>span>span{
+      display: inline-block;
+      font-size: 30px;
+      line-height: 30px;
+      padding: 10px 6px;
+      margin-left: 2px;
+    }
+    .ct-day{
+      text-align: center;
+      /*padding-left: 0;*/
+      /*padding-right: 0;*/
+    }
+    .ct-day div{
+      /*padding-left: 0;*/
+      /*padding-right: 0;*/
+    }
+    .ct-progress{
+      padding-top: 2rem;
+    }
+    .jumbotron{
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <div class="container">
+        <div class="col-md-12">
+          <h1>You and Your Love</h1>
+          <p>看看你占据着你爱的人生命中的多少日子</p>
+        </div>
+        <hr class="hr">
+        <div class="col-md-12 ct-day">
+          <div id="boy-day" class="col-md-4">
+            <h4>男孩出生至今的时间: </h4>
+            <span>
+              <span></span>
+              <br>Days
+            </span>
+            <span>
+              <span></span>
+              <br>Hours
+            </span>
+            <span>
+              <span></span>
+              <br>Minute
+            </span>
+            <span>
+              <span></span>
+              <br>Seconds
+            </span>
+          </div>
+          <div id="girl-day" class="col-md-4">
+            <h4>女孩出生至今的时间: </h4>
+            <span>
+              <span></span>
+              <br>Days
+            </span>
+            <span>
+              <span></span>
+              <br>Hours
+            </span>
+            <span>
+              <span></span>
+              <br>Minute
+            </span>
+            <span>
+              <span></span>
+              <br>Seconds
+            </span>
+          </div>
+          <div id="love-day" class="col-md-4">
+            <h4>恋爱至今的时间: </h4>
+            <span>
+              <span></span>
+              <br>Days
+            </span>
+            <span>
+              <span></span>
+              <br>Hours
+            </span>
+            <span>
+              <span></span>
+              <br>Minute
+            </span>
+            <span>
+              <span></span>
+              <br>Seconds
+            </span>
+          </div>
+        </div>
+        <!-- 进度条 -->
+        <div class="col-md-12 ct-progress" >
+          <p>彼此在对方生命途中的占比</p>
+          <div class="progress" title="随着时光流逝，彼此的陪伴会越来越长">
+            <div class="progress-bar progress-bar-striped progress-bar-info  active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;" id="boy-love-pregress" title="女孩陪伴男孩的岁月">
+              <span></span>
+              <span class="sr-only">60% Complete</span>
+            </div>
+          </div>
+          <div class="progress" title="随着时光流逝，彼此的陪伴会越来越长">
+            <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;" id="girl-love-pregress" title="男孩陪伴女孩的时光">
+              <span></span>
+              <span class="sr-only">60% Complete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../host/js/jquery.js"></script>
+<script type="text/javascript">
+  var boyBorn = '1994-12-19';
+  var girlBorn = '1993-10-01';
+  var memorialDay = '2009-11-09';
+  var boyArr,girlArr,loveArr,
+      nowTmp, boyTmp, girlTmp, memorialTmp,
+      boyBornTmp, girlBornTmp, loveBornTmp,
+      boylpgs, girllpgs;
+  
+  init();
+
+  function init(){
+    boyTmp = formatTimestamp(boyBorn);
+    girlTmp = formatTimestamp(girlBorn);
+    memorialTmp = formatTimestamp(memorialDay);
+    show();
+  }
+  function show(repeat){
+    nowTmp = Math.round(new Date() / 1000);
+    boyBornTmp = (nowTmp - boyTmp);
+    girlBornTmp = (nowTmp - girlTmp);
+    loveBornTmp = (nowTmp - memorialTmp);
+    boylpgs = ((loveBornTmp)/(boyBornTmp)*100).toFixed(7) + '%';
+    girllpgs = ((loveBornTmp)/(girlBornTmp)*100).toFixed(7) + '%';
+    boyArr = formatUnit(boyBornTmp,'fullday');
+    girlArr = formatUnit(girlBornTmp,'fullday');
+    loveArr = formatUnit(loveBornTmp,'fullday');
+    // $('#boy-day').find('span span').text('ss');
+    // var i = j = z = 0;
+    // $('#boy-day span span').each(function(){
+    //   this.innerHTML = boyArr[i];
+    //   i++;
+    // });
+    // setInterval(timer('boy'),1000);
+    timer('boy', repeat);
+    timer('girl',repeat);
+    timer('love',repeat);
+    
+    // $('#girl-day span span').each(function(){
+    //   this.innerHTML = girlArr[j];
+    //   j++;
+    // });
+
+    // $('#love-day span span').each(function(){
+    //   this.innerHTML = loveArr[z];
+    //   z++;
+    // });
+    // for(var i = 0,len = lis.length;i < len; i++){
+      // lis.innerHTML(boyArr[i]);
+      // lis.text(boyArr[i]);
+    // }
+    // $('#girl-day').find('span').text(formatUnit(girlBornTmp));
+    // $('#love-day').find('span').text(formatUnit(loveBornTmp));
+    // if(repeat){
+    //   $('#boy-love-pregress').find('span').text('The Boy：'+boylpgs);
+    //   $('#girl-love-pregress').find('span').text('The Girl：'+girllpgs);
+    // }else{
+      $('#boy-love-pregress').css('width',boylpgs).find('span').text('The Boy：'+boylpgs);
+      $('#girl-love-pregress').css('width',girllpgs).find('span').text('The Girl：'+girllpgs);
+    // }
+    
+    setTimeout(function(){
+      show(true);
+    },1000);
+  }
+  /*
+  * 时间戳转化为天，月，年，时分秒
+  */
+  function formatUnit(time, unit){
+    var num;
+    var charTime,day,hour,min,sec;
+    var time = time||0;
+    var unit = unit||'day';
+    switch (unit){
+      case 'fullday':
+          charTime = time;
+          day = Math.floor(charTime / (60*60*24));
+          charTime = charTime % (60*60*24);
+          hour = Math.floor(charTime / (60*60));
+          charTime = charTime % (60*60);
+          min = Math.floor(charTime / 60);
+          charTime = charTime % 60;
+          sec = Math.floor(charTime);
+          num = [day,hour,min,sec];
+          return num
+      case 'day':
+          num = Math.floor(time / (60*60*24));
+          break;
+      case 'mouch':
+          // time % 365
+          num = time / (60*60*24);
+          break;
+      default:
+          num = -1;
+    }
+    return num;
+  }
+  /*
+  * 时间格式化为时间戳
+  * @param time: 时间，格式：1970-01-01;
+  */
+  function formatTimestamp(time){
+      var tArr = time.split('-');
+      var ex;
+      if(tArr.length == 3){
+        ex = Math.round(new Date(time) / 1000);
+        return ex;
+      }else{
+        alert('sorry，日期格式错误');
+        return false;
+      }
+  }
+  
+  Date.prototype.format = function(format) {
+      /*
+       * eg:format="yyyy-MM-dd hh:mm:ss";
+       */
+      var o = {
+          "M+": this.getMonth() + 1, // month
+          "d+": this.getDate(), // day
+          "h+": this.getHours(), // hour
+          "m+": this.getMinutes(), // minute
+          "s+": this.getSeconds(), // second
+          "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
+          "S": this.getMilliseconds()
+              // millisecond
+      }
+      if (/(y+)/.test(format)) {
+          format = format.replace(RegExp.$1, (this.getFullYear() + "")
+              .substr(4 - RegExp.$1.length));
+      }
+      for (var k in o) {
+          if (new RegExp("(" + k + ")").test(format)) {
+              format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] :
+                  ("00" + o[k]).substr(("" + o[k]).length));
+          }
+      }
+      return format;
+  }
+  function timer(role, repeat){
+    var arr;
+    var day,hours,min,sec;
+    var i = 0;
+    switch (role){
+      case 'boy':
+        arr = boyArr;
+        break;
+      case 'girl':
+        arr = girlArr;
+        break;
+      case 'love':
+        arr = loveArr;
+        break;
+      default:
+        alert('system error!');
+    }
+    if(!repeat){
+      $('#'+role+'-day>span>span').each(function(){
+        this.innerHTML = arr[i];
+        i++;
+      }); 
+    }else{
+      day = arr[0];
+      hours = arr[1];
+      min = arr[2];
+      sec = arr[3];
+      // arr[3] = (arr[3] >= 59): 0 : arr[3]++;
+      if(sec >= 59){
+        min++;
+        sec = 0;
+        if(min >= 59){
+          hours++;
+          min = 0;
+          if(hours >= 23){
+            day++;
+            hours = 0;
+            $('#'+role+'-day>span>span:eq(0)').text(day);
+          }else{
+            hours++;
+          }
+          $('#'+role+'-day>span>span:eq(1)').text(hours);
+        }else{
+          min++;
+        }
+        $('#'+role+'-day>span>span:eq(2)').text(min);
+      }else{
+        sec++;
+      }
+      $('#'+role+'-day>span>span:eq(3)').text(sec);
+      arr[0] = day;
+      arr[1] = hours;
+      arr[2] = min;
+      arr[3] = sec;
+    }
+    
+    arr = null;
+  }
+</script>
+</body>
+</html>
